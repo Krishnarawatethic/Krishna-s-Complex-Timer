@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="box">
+    <div class="box-header">
+      <h1 class="box-title">Counting Timer</h1>
+    </div>
+    <div class="box-body">
+      <div class="row">
+        <div class="col-md-6">
+          <label>Start Time</label>
+          <input type="radio" name="radio" id="radio1" onclick="enableConfirmButton()" />
+          <label for="radio1">1 min</label>
+          <input type="radio" name="radio" id="radio2" onclick="enableConfirmButton()" />
+          <label for="radio2">2 mins</label>
+          <input type="radio" name="radio" id="radio3" onclick="enableConfirmButton()" />
+          <label for="radio3">3 mins</label>
+          <input type="radio" name="radio" id="radio4" onclick="enableConfirmButton()" />
+          <label for="radio4">4 mins</label>
+          <input type="radio" name="radio" id="radio5" onclick="enableConfirmButton()" />
+          <label for="radio5">5 mins</label>
+          <button class="btn1" onclick="handleSubmit()" disabled>Confirm</button>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label type="text" for="exampleInputPassword1">Laps</label>
+            <input type="number" class="form-control" id="exampleInputPassword1" min="1" max="999" oninput="validateNumber()" />
+            <button class="btn2" id="confirmButton" onclick="handleSubmit2()" disabled>Confirm</button>
+            <button class="start" onclick="handleSubmit3()" disabled>Start</button>
+            <button class="pause" onclick="handleSubmit4()" disabled>Pause</button>
+            <button class="reset" onclick="handleSubmit5()" disabled>Reset</button>
+          </div>
+        </div>
+        <div class="decor">
+          <span class="disLap">00</span>
+          <span class="disShow">00:00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
