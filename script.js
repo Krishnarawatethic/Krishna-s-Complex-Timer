@@ -1,1 +1,189 @@
-var intervalId,confirmButton1Clicked=!1,confirmButton2Clicked=!1,confirmButton=!1,lapsRemaining=0;function validateNumber(){var e=document.getElementById("exampleInputPassword1").value.trim(),t=parseInt(e),r=document.getElementById("confirmButton"),n=e.indexOf("."),o=-1!==n;o&&e.substring(n+1),r.disabled=isNaN(t)||t<1||t>999||o&&!/\.0*$/.test(e)}function enableConfirmButton(){document.querySelector(".btn1").disabled=!1}function handleSubmit(){var e=document.querySelectorAll('input[type="radio"]'),t=!1,r=0;if(e.forEach(function(e){if(e.checked){t=!0;var n=e.id;"radio1"===n?r=60:"radio2"===n?r=120:"radio3"===n?r=180:"radio4"===n?r=240:"radio5"===n&&(r=300)}}),t){var n=Math.floor(r/60),o=r%60,l=pad(n)+":"+pad(o);document.querySelector(".disShow").textContent=l;var i=document.querySelector(".btn1");i.disabled=!0,e.forEach(function(e){e.disabled=!0}),i.style.backgroundColor="lightgreen",i.style.color="white",i.style.borderColor="lightgreen",confirmButton1Clicked=!0,checkButtonStatus()}}function pad(e){return(e<10?"0":"")+e}function handleSubmit2(){var e=document.getElementById("exampleInputPassword1"),t=e.value.trim();document.querySelector(".disLap").textContent=t,lapsRemaining=parseInt(t),e.disabled=!0;var r=document.querySelector(".btn2");r.disabled=!0,r.style.backgroundColor="lightgreen",r.style.color="white",r.style.borderColor="lightgreen",confirmButton2Clicked=!0,checkButtonStatus()}function checkButtonStatus(){var e=document.querySelector(".start"),t=document.querySelector(".reset");!0==confirmButton1Clicked&&!0==confirmButton2Clicked&&(e.disabled=!1,t.disabled=!1)}function handleSubmit3(){var e=document.querySelector(".pause");document.querySelector(".start").disabled=!0,e.disabled=!1,document.getElementById("exampleInputPassword1").disabled=!0,confirmButton=!0,startTimer()}function startTimer(){var e=document.querySelector(".disShow"),t=e.textContent,r=t.split(":"),n=parseInt(r[0]),o=parseInt(r[1]);intervalId=setInterval(function(){0===o?0===n?(clearInterval(intervalId),lapsRemaining>0&&(lapsRemaining--,document.querySelector(".disLap").textContent=lapsRemaining,e.textContent=t,startTimer())):(n--,o=59):o--;var r=pad(n)+":"+pad(o);e.textContent=r},1e3)}function handleSubmit4(){var e=document.querySelector(".pause");document.querySelector(".start").disabled=!1,e.disabled=!0,document.getElementById("exampleInputPassword1").disabled=!0,clearInterval(intervalId)}function handleSubmit5(){clearInterval(intervalId);var e=document.querySelector(".disShow"),t=document.querySelector(".disLap");e.textContent="00:00",t.textContent="0",confirmButton1Clicked=!1,confirmButton2Clicked=!1,document.querySelector(".start").disabled=!0,document.querySelectorAll(".btn1, .btn2").forEach(function(e){e.disabled=!0,e.style.backgroundColor="",e.style.color="",e.style.borderColor=""}),document.querySelectorAll('input[type="radio"]').forEach(function(e){e.checked=!1,e.disabled=!1});var r=document.getElementById("exampleInputPassword1");r.disabled=!1,r.value="";var n=document.querySelector(".pause"),o=document.querySelector(".reset");n.disabled=!0,o.disabled=!0}
+var confirmButton1Clicked = false;
+var confirmButton2Clicked = false;
+var confirmButton = false; 
+var lapsRemaining = 0; 
+var intervalId;
+function validateNumber() {
+    var input = document.getElementById("exampleInputPassword1").value.trim();
+    var intValue = parseInt(input);
+    var confirmButton = document.getElementById("confirmButton");
+    var decimalIndex = input.indexOf(".");
+    var hasDecimal = decimalIndex !== -1;
+    var decimalPart = hasDecimal ? input.substring(decimalIndex + 1) : "";
+    confirmButton.disabled = isNaN(intValue) || intValue < 1 || intValue > 999 || (hasDecimal && !/\.0*$/.test(input));
+}
+
+function enableConfirmButton() {
+    var confirmButton = document.querySelector(".btn1");
+    confirmButton.disabled = false;
+}
+
+function handleSubmit() {
+    var radioButtons = document.querySelectorAll('input[type="radio"]');
+    var checked = false;
+    var selectedTime = 0; 
+
+    radioButtons.forEach(function(radioButton) {
+        if (radioButton.checked) {
+            checked = true;
+            var radioId = radioButton.id;
+            if (radioId === "radio1") {
+                selectedTime = 60; 
+            } else if (radioId === "radio2") {
+                selectedTime = 120; 
+            } else if (radioId === "radio3") {
+                selectedTime = 180; 
+            } else if (radioId === "radio4") {
+                selectedTime = 240; 
+            } else if (radioId === "radio5") {
+                selectedTime = 300; 
+            }
+        }
+    });
+
+    if (!checked) {
+        return;
+    }
+
+    var minutes = Math.floor(selectedTime / 60);
+    var seconds = selectedTime % 60;
+    var formattedTime = pad(minutes) + ":" + pad(seconds);
+
+
+    var disShow = document.querySelector(".disShow");
+    disShow.textContent = formattedTime;
+
+    var confirmButton = document.querySelector(".btn1");
+    confirmButton.disabled = true;
+    radioButtons.forEach(function(radioButton) {
+        radioButton.disabled = true;
+    });
+    confirmButton.style.backgroundColor = "lightgreen";
+    confirmButton.style.color = "white";
+    confirmButton.style.borderColor = "lightgreen";
+    confirmButton1Clicked = true;
+    checkButtonStatus(); 
+}
+
+function pad(number) {
+    return (number < 10 ? '0' : '') + number;
+}
+
+function handleSubmit2() {
+    var exampleInputPassword1 = document.getElementById("exampleInputPassword1");
+    var inputValue = exampleInputPassword1.value.trim();
+
+
+    var disLap = document.querySelector(".disLap");
+    disLap.textContent = inputValue;
+
+    lapsRemaining = parseInt(inputValue);
+
+    exampleInputPassword1.disabled = true;
+    var confirmButton2 = document.querySelector(".btn2");
+    confirmButton2.disabled = true;
+    confirmButton2.style.backgroundColor = "lightgreen";
+    confirmButton2.style.color = "white";
+    confirmButton2.style.borderColor = "lightgreen";
+    confirmButton2Clicked = true;
+    checkButtonStatus(); 
+    
+}
+
+function checkButtonStatus() {
+    var startStart = document.querySelector(".start");
+    var startReset = document.querySelector(".reset");
+    if (confirmButton1Clicked == true && confirmButton2Clicked == true) {
+        startStart.disabled = false;
+        startReset.disabled = false;
+    }
+}
+
+function handleSubmit3() {
+    var startPause = document.querySelector(".pause");
+    var startButton = document.querySelector(".start");
+    startButton.disabled = true;
+    startPause.disabled = false;
+    var exampleInputPassword1 = document.getElementById("exampleInputPassword1");
+    exampleInputPassword1.disabled = true;
+    confirmButton = true; 
+    startTimer(); 
+}
+
+function startTimer() {
+    var disShow = document.querySelector(".disShow");
+    var initialTime = disShow.textContent;
+    var timeArray = initialTime.split(":");
+    var minutes = parseInt(timeArray[0]);
+    var seconds = parseInt(timeArray[1]);
+
+    intervalId = setInterval(function() {
+        if (seconds === 0) {
+            if (minutes === 0) {
+                clearInterval(intervalId);
+                if (lapsRemaining > 0) {
+                    lapsRemaining--;
+                    var disLap = document.querySelector(".disLap");
+                    disLap.textContent = lapsRemaining;
+                    
+                    disShow.textContent = initialTime;
+                    
+                    startTimer();
+                } else {
+
+                }
+            } else {
+                minutes--;
+                seconds = 59;
+            }
+        } else {
+            seconds--;
+        }
+
+        var formattedTime = pad(minutes) + ":" + pad(seconds);
+        disShow.textContent = formattedTime;
+    }, 1000);
+}
+
+function handleSubmit4() {
+    var startPause = document.querySelector(".pause");
+    var startButton = document.querySelector(".start");
+    startButton.disabled = false;
+    startPause.disabled = true;
+    var exampleInputPassword1 = document.getElementById("exampleInputPassword1");
+    exampleInputPassword1.disabled = true;
+    clearInterval(intervalId); 
+}
+
+function handleSubmit5() {
+    clearInterval(intervalId); 
+    var disShow = document.querySelector(".disShow");
+    var disLap = document.querySelector(".disLap");
+    disShow.textContent = "00:00";
+    disLap.textContent = "0"; 
+
+
+    confirmButton1Clicked = false;
+    confirmButton2Clicked = false;
+    var startButton = document.querySelector(".start");
+    startButton.disabled = true;
+    var confirmButtons = document.querySelectorAll('.btn1, .btn2');
+    confirmButtons.forEach(function(confirmButton) {
+        confirmButton.disabled = true;
+        confirmButton.style.backgroundColor = "";
+        confirmButton.style.color = "";
+        confirmButton.style.borderColor = "";
+    });
+    var radioButtons = document.querySelectorAll('input[type="radio"]');
+    radioButtons.forEach(function(radioButton) {
+        radioButton.checked = false;
+        radioButton.disabled = false;
+    });
+    var exampleInputPassword1 = document.getElementById("exampleInputPassword1");
+    exampleInputPassword1.disabled = false;
+    exampleInputPassword1.value = "";
+    var startPause = document.querySelector(".pause");
+    var startReset = document.querySelector(".reset");
+    startPause.disabled = true;
+    startReset.disabled = true;
+}
